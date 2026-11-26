@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentinelAI | Security Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">S</div>
+                <span>SentinelAI</span>
+            </div>
+
+            <div class="menu-label">MAIN MENU</div>
+            <nav>
+                <a href="#" class="nav-item active" id="navDashboard"><span>▦</span> Dashboard</a>
+                <a href="#" class="nav-item" id="navNewScan"><span>⌕</span> New Scan</a>
+                <a href="#recentScans" class="nav-item" id="navProjects"><span>◈</span> Projects</a>
+                <a href="#vulnerabilityReports" class="nav-item"><span>⚠</span> Vulnerabilities</a>
+                <a href="#recentScans" class="nav-item"><span>◷</span> Scan History</a>
+                <a href="#securityReview" class="nav-item"><span>▤</span> Security Review</a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="system-box">
+                    <div class="system-indicator"></div>
+                    <div>
+                        <p>System Status</p>
+                        <small>Operational</small>
+                    </div>
+                </div>
+                <div class="version">SentinelAI v1.0</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <p class="breadcrumb">Workspace / Dashboard</p>
+                    <h1>Security Dashboard</h1>
+                </div>
+                <button class="scan-button" id="newScanButton">+ New Scan</button>
+            </header>
+
+            <section class="welcome">
+                <div>
+                    <h2>Welcome to SentinelAI</h2>
+                    <p>Analyze your code, identify security vulnerabilities and improve your project's security posture.</p>
+                </div>
+                <div class="welcome-icon">⬡</div>
+            </section>
+
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Total Scans</span>
+                        <span class="stat-icon blue">⌕</span>
+                    </div>
+                    <h2 id="totalScans">0</h2>
+                    <p>Scans performed</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Projects</span>
+                        <span class="stat-icon purple">◈</span>
+                    </div>
+                    <h2 id="totalProjects">0</h2>
+                    <p>Projects analyzed</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Vulnerabilities</span>
+                        <span class="stat-icon red">⚠</span>
+                    </div>
+                    <h2 id="totalVulnerabilities">0</h2>
+                    <p>Issues detected</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Security Score</span>
+                        <span class="stat-icon green">✓</span>
+                    </div>
+                    <h2 id="securityScore">--</h2>
+                    <p>Overall security rating</p>
+                </div>
+            </section>
+
+            <section class="content-grid">
+                <div class="panel scan-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Start Security Analysis</h3>
+                            <p>Upload a project to begin scanning</p>
+                        </div>
+                    </div>
+
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">↑</div>
+                        <h3>Upload your project</h3>
+                        <p>Select a ZIP file containing your source code</p>
+                        <button class="secondary-button" id="uploadButton" type="button">Browse Files</button>
+                        <input type="file" id="projectFile" accept=".zip" hidden>
+                        <p class="file-info">ZIP files only</p>
+                    </div>
+                </div>
+
+                <div class="panel overview-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Vulnerability Overview</h3>
+                            <p>Severity distribution</p>
+                        </div>
+                    </div>
+
+                    <div class="severity-item">
+                        <div class="severity-label">
+                            <span class="severity-dot critical"></span>
+                            Critical
+                            <span class="severity-count" id="criticalCount">0</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-fill critical-fill" id="criticalProgress"></div>
+                        </div>
+                    </div>
+
+                    <div class="severity-item">
+                        <div class="severity-label">
+                            <span class="severity-dot high"></span>
+                            High
+                            <span class="severity-count" id="highCount">0</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-fill high-fill" id="highProgress"></div>
+                        </div>
+                    </div>
+
+                    <div class="severity-item">
+                        <div class="severity-label">
+                            <span class="severity-dot medium"></span>
+                            Medium
+                            <span class="severity-count" id="mediumCount">0</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-fill medium-fill" id="mediumProgress"></div>
+                        </div>
+                    </div>
+
+                    <div class="severity-item">
+                        <div class="severity-label">
+                            <span class="severity-dot low"></span>
+                            Low
+                            <span class="severity-count" id="lowCount">0</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-fill low-fill" id="lowProgress"></div>
+                        </div>
+                    </div>
+
+                    <div class="severity-item">
+                        <div class="severity-label">
+                            <span class="severity-dot info"></span>
+                            Informational
+                            <span class="severity-count" id="infoCount">0</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-fill info-fill" id="infoProgress"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel security-review-panel" id="securityReview">
+                <div class="panel-header">
+                    <div>
+                        <h3>Security Review</h3>
+                        <p>Automated summary and recommended actions</p>
+                    </div>
+                    <span class="review-priority" id="reviewPriority">Awaiting Scan</span>
+                </div>
+
+                <div id="securityReviewContainer">
+                    <div class="empty-state">
+                        <div class="empty-icon">✓</div>
+                        <h3>No security review available</h3>
+                        <p>Scan a project to receive a security summary and prioritized recommendations.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel agent-panel" id="agentActivity">
+                <div class="panel-header">
+                    <div>
+                        <h3>Security Agents</h3>
+                        <p>Multi-agent analysis pipeline</p>
+                    </div>
+                </div>
+
+                <div class="agent-grid">
+                    <div class="agent-card">
+                        <div class="agent-icon">🔑</div>
+                        <div>
+                            <h4>Secrets Detection</h4>
+                            <p>Detects exposed credentials</p>
+                            <span class="agent-status">Ready</span>
+                        </div>
+                    </div>
+
+                    <div class="agent-card">
+                        <div class="agent-icon">⌘</div>
+                        <div>
+                            <h4>Code Security</h4>
+                            <p>Analyzes source code patterns</p>
+                            <span class="agent-status">Ready</span>
+                        </div>
+                    </div>
+
+                    <div class="agent-card">
+                        <div class="agent-icon">📦</div>
+                        <div>
+                            <h4>Dependency Analysis</h4>
+                            <p>Reviews dependency configurations</p>
+                            <span class="agent-status">Ready</span>
+                        </div>
+                    </div>
+
+                    <div class="agent-card">
+                        <div class="agent-icon">⚙</div>
+                        <div>
+                            <h4>Configuration Analysis</h4>
+                            <p>Detects insecure configurations</p>
+                            <span class="agent-status">Ready</span>
+                        </div>
+                    </div>
+
+                    <div class="agent-card">
+                        <div class="agent-icon">🛡</div>
+                        <div>
+                            <h4>Security Review</h4>
+                            <p>Summarizes and prioritizes findings</p>
+                            <span class="agent-status">Ready</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel recent-panel" id="recentScans">
+                <div class="panel-header">
+                    <div>
+                        <h3>Recent Scans</h3>
+                        <p>Your latest security analyses</p>
+                    </div>
+                    <button class="text-button" id="viewAllScansButton" type="button">View All</button>
+                </div>
+
+                <div id="recentScansContainer">
+                    <div class="empty-state">
+                        <div class="empty-icon">◷</div>
+                        <h3>No scans yet</h3>
+                        <p>Your scan history will appear here once you analyze your first project.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel vulnerability-panel" id="vulnerabilityReports">
+                <div class="panel-header">
+                    <div>
+                        <h3>Vulnerability Reports</h3>
+                        <p>Detailed security findings from your scans</p>
+                    </div>
+                </div>
+
+                <div class="report-toolbar">
+                    <label for="severityFilter">Filter by severity</label>
+                    <select id="severityFilter">
+                        <option value="ALL">All Severities</option>
+                        <option value="CRITICAL">Critical</option>
+                        <option value="HIGH">High</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="LOW">Low</option>
+                        <option value="INFO">Informational</option>
+                    </select>
+                </div>
+
+                <div id="vulnerabilityReportContainer">
+                    <div class="vulnerability-empty-state">
+                        <div class="empty-icon">⚠</div>
+                        <h3>No vulnerability reports available</h3>
+                        <p>Upload and scan a project to view detailed security findings here.</p>
+                    </div>
+                </div>
+            </section>
+
+            <footer>SentinelAI &copy; 2026 | AI-Powered Security Analysis</footer>
+        </main>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
